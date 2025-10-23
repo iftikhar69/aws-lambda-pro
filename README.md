@@ -124,5 +124,4 @@ Iftikhar Hussain
 
 This project is licensed under the MIT License
 .
- <p align="center"> <b>“Build once. Scale infinitely. Go serverless.”</b> </p> ``` 
-
+ <p align="center"> <b>“Build once. Scale infinitely. Go serverless.”</b> </p> 
