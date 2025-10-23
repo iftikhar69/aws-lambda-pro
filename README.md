@@ -1,127 +1,133 @@
-# 🚀 AWS Lambda + API Gateway Integration (Serverless REST API)
+# ⚡ AWS Lambda REST API Integration
 
-[![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
-[![AWS Lambda](https://img.shields.io/badge/AWS-Lambda-orange.svg)](https://aws.amazon.com/lambda/)
-[![API Gateway](https://img.shields.io/badge/AWS-API_Gateway-yellow.svg)](https://aws.amazon.com/api-gateway/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-
-A minimal **serverless REST API** built using **AWS Lambda** and **API Gateway**, which fetches data from an external API (`jsonplaceholder.typicode.com`).  
-This project demonstrates how to integrate Lambda functions with API Gateway triggers, layers, and HTTP endpoints.
+A practical demonstration of how to integrate **AWS Lambda** with **Amazon API Gateway** to build a fully serverless REST API — scalable, cost-efficient, and easy to maintain.
 
 ---
 
-## 🧩 Architecture Overview
+## 🌐 Overview
 
-```text
-Client (Postman / Browser)
-          │
-          ▼
-    API Gateway (HTTP Trigger)
-          │
-          ▼
-   AWS Lambda Function
-          │
-          ▼
-External API (JSONPlaceholder)
+This project shows how to:
+- Create and deploy AWS Lambda functions.
+- Integrate Lambda with API Gateway.
+- Configure RESTful endpoints (GET, POST, PUT, DELETE).
+- Test and validate API responses.
+- Manage deployments through Git and GitHub.
+
+---
+
+## 🗂️ Project Structure
 
 ```
-<p align="center"> <img src="./assets/flow_diagram.gif" width="550" alt="Flow of API Gateway + Lambda" /> </p>
-
-💡 Project Overview
-
-This project uses AWS Lambda as a lightweight compute service to handle HTTP requests routed from API Gateway.
-When triggered, the Lambda function calls a public REST API and returns its JSON response.
-Features
-
-    ⚙️ Serverless architecture – No servers to manage.
-
-    🌐 External API call using Python requests.
-
-    🧱 Config separation (config.py for base URL).
-
-    🧩 API Gateway integration with Lambda triggers and layers.
-
-    🧾 JSON response displayed in Postman or your browser.
-  ```
-📂 Project Structure
-
-aws-lambda-api/
-├── lambda-function.py      # Core Lambda logic
-├── config.py               # Base URL configuration
-├── assets/
-│   ├── screenshot.png      # Your AWS Lambda + Gateway setup
-│   └── flow_diagram.gif    # Architecture visualization
-└── README.md
-
-⚙️ Setup & Deployment
-Prerequisites
-
-    🧠 AWS Account (with Lambda + API Gateway access)
-
-    🐍 Python 3.8+
-
-    🧰 AWS CLI configured locally
-
-Steps
-
-  1. Clone the repository
-git clone https://github.com/<your-username>/aws-lambda-api.git
-cd aws-lambda-api
-
-
-
-  2. Deploy Lambda Function
-
-    Go to AWS Lambda Console
-
-    Create new function → Author from scratch
-
-    Upload your lambda-function.py and config.py
-
-    Add a Layer for external libraries (e.g. requests)
-
-    Set Handler → lambda-function.lambda_handler
-
-  3. Integrate with API Gateway
-
-    Create a new HTTP API
-
-    Add Lambda Trigger
-
-    Deploy API → Copy endpoint URL
-
-  4. Test using Postman
-    GET https://<api-id>.execute-api.<region>.amazonaws.com/dev
-  
-  You’ll receive:
-{
-  "userId": 1,
-  "id": 1,
-  "title": "delectus aut autem",
-  "completed": false
-}
-
-📸 Screenshots
-<p align="center"> <img src="./assets/screenshot.png" width="700" alt="AWS Lambda + API Gateway Setup" /> </p> 
-
-
-🧠 Future Improvements
-
-    Add POST & DELETE endpoints
-
-    Integrate with DynamoDB for persistence
-
-    Add CloudWatch Logs for monitoring
-
-    Include CORS support for frontend apps
+lambda-rest-api-integration/
+├── Assets/
+│   ├── Screenshot from 2025-10-23 22-31-13.png
+│   └── image1.png
+├── src/
+│   └── (Lambda source files)
+├── README.md
+└── ...
 ```
 
-👨‍💻 Author
+---
 
-Iftikhar Hussain
-📧 Reach me on GitHub or LinkedIn for collaboration.
-🪪 License
+## ⚙️ Features
 
-This project is licensed under the MIT License
-.
- <p align="center"> <b>“Build once. Scale infinitely. Go serverless.”</b> </p> 
+✅ **Serverless Architecture** – No need to manage servers  
+✅ **API Gateway Integration** – Seamless connection between client and Lambda  
+✅ **Scalable & Cost-Efficient** – Pay only for execution time  
+✅ **Secure Endpoints** – IAM roles and policies  
+✅ **Simple Deployment** – Works with AWS Console or CLI  
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Prerequisites
+Make sure you have:
+- An **AWS account**
+- **AWS CLI** configured  
+- **Node.js** or **Python** (depending on your Lambda runtime)
+- **Postman** or **curl** for API testing
+
+---
+
+### 2️⃣ Setup & Deployment
+
+#### Clone the Repository
+```bash
+git clone https://github.com/iftikhar69/lambda-rest-api-integration.git
+cd lambda-rest-api-integration
+```
+
+#### Deploy the Lambda Function
+You can deploy via AWS Console **or** using AWS CLI:
+
+```bash
+aws lambda create-function \
+  --function-name MyLambdaAPI \
+  --runtime nodejs18.x \
+  --role arn:aws:iam::<your-account-id>:role/<your-lambda-role> \
+  --handler index.handler \
+  --zip-file fileb://function.zip
+```
+
+#### Integrate with API Gateway
+1. Open **API Gateway** in AWS Console.  
+2. Create a new REST API.  
+3. Add a resource (e.g., `/users`) and methods (GET, POST, etc.).  
+4. Link each method to your Lambda function.  
+5. Deploy the API to a stage (e.g., `prod`).  
+
+---
+
+## 🔍 Testing the API
+
+Use `curl` or Postman to test endpoints like:
+
+```bash
+curl -X GET https://<api-id>.execute-api.<region>.amazonaws.com/prod/users
+```
+
+---
+
+## 📸 Screenshots
+
+### 🔹 Lambda REST API Setup
+![Lambda Setup](https://github.com/iftikhar69/lambda-rest-api-integration/blob/main/Assets/Screenshot%20from%202025-10-23%2022-31-13.png?raw=true)
+
+### 🔹 Sample Output / Response
+![Sample Output](https://github.com/iftikhar69/lambda-rest-api-integration/blob/main/Assets/image1.png?raw=true)
+
+---
+
+## 🧩 Tech Stack
+
+| Component | Description |
+|------------|-------------|
+| **AWS Lambda** | Core serverless compute service |
+| **API Gateway** | Manages REST endpoints |
+| **IAM** | Secure permission management |
+| **Node.js / Python** | Runtime for Lambda |
+| **GitHub** | Version control and collaboration |
+
+---
+
+## 🧠 Learn More
+
+- [AWS Lambda Documentation](https://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
+- [Amazon API Gateway Docs](https://docs.aws.amazon.com/apigateway/latest/developerguide/welcome.html)
+- [Serverless Framework](https://www.serverless.com/framework/docs/)
+
+---
+
+## 👨‍💻 Author
+
+**[iftikhar69](https://github.com/iftikhar69)**  
+💡 Passionate about cloud computing, serverless systems, and automation.
+
+---
+
+## 🪪 License
+
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for more details.
