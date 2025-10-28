@@ -12,21 +12,35 @@ This project shows how to:
 - Configure RESTful endpoints (GET, POST, PUT, DELETE).
 - Test and validate API responses.
 - Manage deployments through Git and GitHub.
+- ✅ **Automate CI/CD with GitHub Actions** for linting, testing, and Lambda deployment.
+- ✅ **Define infrastructure with Terraform (IaC)** for reproducible and consistent environments.
 
 ---
 
 ## 🗂️ Project Structure
 
+
 ```
 lambda-rest-api-integration/
-├── Assets/
-│   ├── Screenshot from 2025-10-23 22-31-13.png
-│   └── image1.png
+├── .github/
+│ └── workflows/
+│ ├── ci.yml
+│ └── deploy.yml
+├── terraform/
+│ ├── main.tf
+│ ├── variables.tf
+│ └── outputs.tf
 ├── src/
-│   └── (Lambda source files)
+│ └── (Lambda source files)
+├── tests/
+│ └── handler.test.js
+├── Dockerfile
 ├── README.md
 └── ...
 ```
+
+---
+
 
 ---
 
@@ -37,6 +51,9 @@ lambda-rest-api-integration/
 ✅ **Scalable & Cost-Efficient** – Pay only for execution time  
 ✅ **Secure Endpoints** – IAM roles and policies  
 ✅ **Simple Deployment** – Works with AWS Console or CLI  
+✅ **CI/CD Ready** – Automated testing and deployment with GitHub Actions  
+✅ **Infrastructure as Code (IaC)** – Terraform-based Lambda provisioning  
+✅ **Docker Support** – Optional local testing or containerized Lambda builds  
 
 ---
 
@@ -46,6 +63,7 @@ lambda-rest-api-integration/
 Make sure you have:
 - An **AWS account**
 - **AWS CLI** configured  
+- **Terraform** (for infrastructure provisioning)
 - **Node.js** or **Python** (depending on your Lambda runtime)
 - **Postman** or **curl** for API testing
 
@@ -57,11 +75,20 @@ Make sure you have:
 ```bash
 git clone https://github.com/iftikhar69/lambda-rest-api-integration.git
 cd lambda-rest-api-integration
+
 ```
 
-#### Deploy the Lambda Function
-You can deploy via AWS Console **or** using AWS CLI:
+Deploy Using Terraform
+```bash
+cd terraform
+terraform init
+terraform plan
+terraform apply -auto-approve
+```
 
+Deploy the Lambda Function (Manual Option)
+
+You can deploy via AWS Console or using AWS CLI:
 ```bash
 aws lambda create-function \
   --function-name MyLambdaAPI \
@@ -70,29 +97,65 @@ aws lambda create-function \
   --handler index.handler \
   --zip-file fileb://function.zip
 ```
+Integrate with API Gateway
 
-#### Integrate with API Gateway
-1. Open **API Gateway** in AWS Console.  
-2. Create a new REST API.  
-3. Add a resource (e.g., `/users`) and methods (GET, POST, etc.).  
-4. Link each method to your Lambda function.  
-5. Deploy the API to a stage (e.g., `prod`).  
+Open API Gateway in AWS Console.
 
----
+Create a new REST API.
 
-## 🔍 Testing the API
+Add a resource (e.g., /users) and methods (GET, POST, etc.).
 
-Use `curl` or Postman to test endpoints like:
+Link each method to your Lambda function.
 
-```bash
+Deploy the API to a stage (e.g., prod).
+
+🔍 Testing the API
+Use curl or Postman to test endpoints like:
+```
 curl -X GET https://<api-id>.execute-api.<region>.amazonaws.com/prod/users
 ```
+Run unit tests locally:
+```
+npm test
+```
 
----
+🧪 CI/CD Pipeline
 
-## 📸 Screenshots
+This project includes GitHub Actions workflows that:
 
-### 🔹 Lambda REST API Setup
+Automatically install dependencies and run tests.
+
+Deploy the Lambda function on merge to main.
+
+File: .github/workflows/ci.yml
+```
+name: Lambda CI
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - run: npm ci
+      - run: npm test
+
+```
+
+🐳 Docker Support
+You can run and test locally using Docker:
+```
+docker build -t lambda-api .
+docker run -p 3000:3000 lambda-api
+```
+📸 Screenshots
+🔹 Lambda REST API Setup
 ![Lambda Setup](https://github.com/iftikhar69/lambda-rest-api-integration/blob/main/Assets/Screenshot%20from%202025-10-23%2022-31-13.png?raw=true)
 
 ### 🔹 Sample Output / Response
@@ -100,15 +163,17 @@ curl -X GET https://<api-id>.execute-api.<region>.amazonaws.com/prod/users
 
 ---
 
-## 🧩 Tech Stack
-
-| Component | Description |
-|------------|-------------|
-| **AWS Lambda** | Core serverless compute service |
-| **API Gateway** | Manages REST endpoints |
-| **IAM** | Secure permission management |
-| **Node.js / Python** | Runtime for Lambda |
-| **GitHub** | Version control and collaboration |
+🧩 Tech Stack
+| Component            | Description                         |
+| -------------------- | ----------------------------------- |
+| **AWS Lambda**       | Core serverless compute service     |
+| **API Gateway**      | Manages REST endpoints              |
+| **IAM**              | Secure permission management        |
+| **Terraform**        | Infrastructure as Code provisioning |
+| **Docker**           | Optional containerized testing      |
+| **GitHub Actions**   | CI/CD automation                    |
+| **Node.js / Python** | Runtime for Lambda                  |
+| **GitHub**           | Version control and collaboration   |
 
 ---
 
