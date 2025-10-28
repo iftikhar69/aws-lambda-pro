@@ -1,8 +1,14 @@
-// src/handler.js
-exports.handler = async (event) => {
-  console.log("Lambda event received:", event);
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: "Lambda working fine!", input: event }),
-  };
-};
+// tests/handler.test.js
+const { handler } = require('../src/handler');
+
+describe('AWS Lambda Handler', () => {
+  test('should return a 200 status and success message', async () => {
+    const event = { key: 'value' };
+
+    const result = await handler(event);
+
+    expect(result.statusCode).toBe(200);
+    const body = JSON.parse(result.body);
+    expect(body.message).toBe("Lambda working fine!");
+  });
+});
