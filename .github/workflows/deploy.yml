@@ -1,0 +1,23 @@
+name: Lambda Deploy
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Terraform Init & Apply
+        run: |
+          cd terraform
+          terraform init
+          terraform apply -auto-approve
+      - name: Deploy Lambda
+        run: |
+          zip -r function.zip src/
+          aws lambda update-function-code \
+            --function-name MyLambdaAPI \
+            --zip-file fileb://function.zip
